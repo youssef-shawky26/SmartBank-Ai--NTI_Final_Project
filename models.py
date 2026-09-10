@@ -124,7 +124,7 @@ US_STATES = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","I
 # "_net" (online) categories generally skew riskier than "_pos" (in-person) ones.
 _RISKIER_CATEGORIES = {"shopping_net", "misc_net", "grocery_pos"}
 # CONFIRMED from the same notebook's hour-of-day EDA (Q3): fraud rate is flat
-# (~0.1%) during the day but spikes at 22:00-23:00 and 00:00-03:00 (~25x baseline).
+# (~0.1%) during the day but spikes at 22:00-23:00 and 00:00-03:00 (~25x baseline). 
 _RISKY_HOURS = {22, 23, 0, 1, 2, 3}
 FRAUD_THRESHOLD = _fraud_threshold  # 0.85, taken from the bundle as trained (best-F1 cutoff)
 
