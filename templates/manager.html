@@ -1,0 +1,117 @@
+{% extends "_base.html" %}
+{% block title %}Verdict — Manager Console{% endblock %}
+{% block body %}
+<div class="app-shell">
+  <nav class="glass-nav">
+    <div class="glass-nav-inner">
+      <div class="glass-nav-brand"><span class="mark">V</span> Verdict </div>
+      <div class="glass-nav-links" id="nav-links">
+        <button class="glass-nav-link active" data-section="account">Account</button>
+        <button class="glass-nav-link" data-section="loans">Loans<span class="badge" id="badge-loans" style="display:none;"></span></button>
+        <button class="glass-nav-link" data-section="fraud">Fraud<span class="badge" id="badge-fraud" style="display:none;"></span></button>
+        <button class="glass-nav-link" data-section="currency">Currency</button>
+        <button class="glass-nav-link" data-section="dashboard">Model &amp; Performance</button>
+      </div>
+      <div class="glass-nav-actions">
+        <div class="theme-toggle" id="theme-toggle" title="Toggle theme"><div class="knob">&#9788;</div></div>
+        <div class="glass-nav-avatar" id="avatar">--</div>
+        <button class="glass-nav-logout" id="logout-btn" title="Log out">&#10140;</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- ACCOUNT -->
+    <section class="section active" id="section-account">
+      <div class="section-head">
+        <h1>Your account</h1>
+        <p>Staff profile, plus the client directory managers can see.</p>
+      </div>
+      <div class="card" id="account-card" style="margin-bottom:22px;">
+        <div class="spread" style="margin-bottom:18px;">
+          <h3 class="display" style="font-size:19px;">Profile details</h3>
+          <button class="btn btn-secondary btn-sm" id="edit-toggle">Edit</button>
+        </div>
+        <div id="account-fields" class="grid grid-2"></div>
+        <div id="account-save-row" style="display:none; margin-top:18px;">
+          <button class="btn btn-primary" id="save-account">Save changes</button>
+        </div>
+      </div>
+      <h3 class="display" style="font-size:19px; margin-bottom:14px;">Client directory <span class="chip chip-neutral">Manager access</span></h3>
+      <div id="client-directory"></div>
+    </section>
+
+    <!-- LOANS -->
+    <section class="section" id="section-loans">
+      <div class="section-head">
+        <h1>Loan requests</h1>
+        <p>Every request the model has already scored — you make the final call.</p>
+      </div>
+      <div id="manager-loans"></div>
+    </section>
+
+    <!-- FRAUD -->
+    <section class="section" id="section-fraud">
+      <div class="section-head">
+        <h1>Fraud detection</h1>
+        <p>Transactions the model flagged for manual review before they complete.</p>
+      </div>
+      <div id="manager-fraud"></div>
+    </section>
+
+    <!-- CURRENCY -->
+    <section class="section" id="section-currency">
+      <div class="section-head">
+        <h1>Currency</h1>
+        <p>How EUR/USD has moved, and what the forecasting model expects next.</p>
+      </div>
+      <div class="grid grid-3" style="margin-bottom:20px;">
+        <div class="card stat-card"><div class="label">EUR/USD — last close</div><div class="value" id="cur-last">—</div></div>
+        <div class="card stat-card"><div class="label">Model's next-day forecast</div><div class="value" id="cur-pred">—</div></div>
+        <div class="card stat-card"><div class="label">Expected move</div><div class="value" id="cur-change">—</div><div class="sub" id="cur-direction"></div></div>
+      </div>
+      <div class="card">
+        <canvas id="cur-chart" height="90"></canvas>
+        <div class="spread" style="margin-top:16px;">
+          <p class="muted" style="font-size:12.5px; margin:0;">Linear regression on 1-day lag, 7-day lag, 7-day and 30-day moving averages.</p>
+          <button class="btn btn-secondary btn-sm" id="cur-advance">Simulate next trading day</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODEL & PERFORMANCE -->
+    <section class="section" id="section-dashboard">
+      <div class="section-head">
+        <h1>Model &amp; performance</h1>
+        <p>How the four models behind Verdict are doing — trained-model metrics, plus how they're performing live at this bank.</p>
+      </div>
+      <div class="grid grid-4" style="margin-bottom:22px;" id="dash-stats"></div>
+      <div class="grid grid-2" style="margin-bottom:22px;">
+        <div class="card">
+          <h3 class="display" style="font-size:17px; margin-bottom:14px;">Client segments</h3>
+          <canvas id="segment-chart" height="200"></canvas>
+        </div>
+        <div class="card">
+          <h3 class="display" style="font-size:17px; margin-bottom:14px;">Loan decisions</h3>
+          <canvas id="loans-chart" height="200"></canvas>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:22px;">
+        <h3 class="display" style="font-size:17px; margin-bottom:4px;">Registered users over time</h3>
+        <p class="muted" style="font-size:12.5px; margin:0 0 14px;">Every signup at this bank, client and manager accounts included.</p>
+        <canvas id="signups-chart" height="80"></canvas>
+      </div>
+      <h3 class="display" style="font-size:19px; margin-bottom:4px;">Model performance</h3>
+      <p class="muted" style="font-size:13px; margin:0 0 16px;">Metrics from each model's own held-out test set at training time, plus how it's actually performing here.</p>
+      <div class="grid grid-2" id="model-metric-cards"></div>
+    </section>
+
+  </main>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/vendor/chart.umd.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app_shell.js') }}"></script>
+<script src="{{ url_for('static', filename='js/manager.js') }}"></script>
+{% endblock %}
